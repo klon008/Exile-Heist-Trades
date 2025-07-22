@@ -1,12 +1,10 @@
 
 "use client";
 
-import { ReactNode } from 'react';
 import { useState, useEffect } from 'react';
 import type { PoeItem } from '@/types';
 import { Loader } from '@/components/loader';
 import { ItemGrid } from '@/components/item-grid';
-import RootLayout from './layout';
 
 export default function Home() {
   const [items, setItems] = useState<PoeItem[]>([]);
@@ -51,18 +49,16 @@ export default function Home() {
   }
 
   return (
-    <RootLayout>
-      <main className="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-primary font-headline sm:text-5xl">
-            Exile Heist Trades
-          </h1>
-          <p className="mt-2 text-lg text-muted-foreground">
-            Instantly search for valuable Heist items in the current Path of Exile league.
-          </p>
-        </div>
-        <ItemGrid items={items} currencyIcons={currencyIcons} />
-      </main>
-    </RootLayout>
+    <main className="container mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-primary font-headline sm:text-5xl">
+          Exile Heist Trades
+        </h1>
+        <p className="mt-2 text-lg text-muted-foreground">
+          Instantly search for valuable Heist items in the current Path of Exile league.
+        </p>
+      </div>
+      <ItemGrid items={items} currencyIcons={currencyIcons} />
+    </main>
   );
 }
