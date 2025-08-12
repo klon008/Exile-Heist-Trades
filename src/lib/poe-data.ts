@@ -39,17 +39,30 @@ const ADDITIONAL_HEIST_UNIQUES = new Set([
     'Actum', 'Font of Thunder'
 ]);
 
-async function fetchWithRetry(url: string, retries = 3, delay = 1000): Promise<any> {
+async function fetchWithRetry(url: string, retries = 3): Promise<any> {
+  const options = {
+    method: 'GET',
+    headers: {
+      'User-Agent': 'YourAppName/1.0 (contact@youremail.com)',
+      'Accept': 'application/json'
+    }
+  };
+
   for (let i = 0; i < retries; i++) {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, options);
+      
       if (!response.ok) {
-        throw new Error(`API request to ${url} failed with status ${response.status}`);
+        if (response.status === 403) {
+          throw new Error(`Access forbidden - check API requirements`);
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
       return await response.json();
     } catch (error) {
       if (i === retries - 1) throw error;
-      await new Promise(res => setTimeout(res, delay * (i + 1)));
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
     }
   }
 }
